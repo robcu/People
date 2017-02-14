@@ -10,6 +10,7 @@ public class Main {
     static HashMap<String, ArrayList<Person>> directory = new HashMap<>();
 
     static void scanIntoHashMap(String filename) throws FileNotFoundException {
+
         File f = new File(filename);
         Scanner fileScanner = new Scanner(f);
 
@@ -34,12 +35,14 @@ public class Main {
     }
 
     static void sortHashMap() {
+
         for (Map.Entry<String, ArrayList<Person>> entry : directory.entrySet()) {
             Collections.sort(entry.getValue());
         }
     }
 
     static void printHashMap() {
+
         for (Map.Entry<String, ArrayList<Person>> entry : directory.entrySet()) {
             System.out.println(entry.getKey());
             for (Person person : entry.getValue()) {
