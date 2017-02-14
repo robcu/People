@@ -1,11 +1,11 @@
 
 public class Person implements Comparable{
-    String id;
-    String firstName;
-    String lastName;
-    String email;
+    private String id;
+    private String firstName;
+    private String lastName;
+    private String email;
     String country;
-    String iP;
+    private String iP;
 
     public Person(String id, String firstName, String lastName, String email, String country, String iP) {
         this.id = id;
@@ -15,8 +15,6 @@ public class Person implements Comparable{
         this.country = country;
         this.iP = iP;
     }
-
-    public Person() {}
 
     @Override
     public String toString(){
