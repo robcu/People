@@ -7,9 +7,17 @@ import java.util.*;
 
 public class Main {
 
+    public static void main(String[] args) throws IOException {
+
+        scanIntoDirectory("people.csv");
+        sortDirectory();
+        printDirectory();
+        writeJSONFile("people.json");
+    }
+
     static HashMap<String, ArrayList<Person>> directory = new HashMap<>();
 
-    static void scanIntoHashMap(String filename) throws FileNotFoundException {
+    static void scanIntoDirectory(String filename) throws FileNotFoundException {
 
         File f = new File(filename);
         Scanner fileScanner = new Scanner(f);
@@ -20,28 +28,32 @@ public class Main {
 
             Person person = new Person(columns[0], columns[1], columns[2], columns[3], columns[4], columns[5]);
 
-            if (directory.containsKey(person.country)) {
-                ArrayList<Person> tempArray = directory.get(person.country);
-                tempArray.add(person);
-                directory.put(person.country, tempArray);
-            }
-            if (!directory.containsKey(person.country)) {
-                ArrayList<Person> tempArray2 = new ArrayList<>();
-                tempArray2.add(person);
-                directory.put(person.country, tempArray2);
-            }
+//            ArrayList<Person> tempArray;
+//
+//            if (directory.containsKey(person.country)) {
+//                tempArray = directory.get(person.country);
+//            }
+//            else {
+//                tempArray = new ArrayList<>();
+//                directory.put(person.country, tempArray);
+//            }
+//            tempArray.add(person);
+
+            directory.putIfAbsent(person.country, new ArrayList<Person>());  // Replaces above commented code
+            directory.get(person.country).add(person);
+
         }
         fileScanner.close();
     }
 
-    static void sortHashMap() {
+    static void sortDirectory() {
 
         for (Map.Entry<String, ArrayList<Person>> entry : directory.entrySet()) {
             Collections.sort(entry.getValue());
         }
     }
 
-    static void printHashMap() {
+    static void printDirectory() {
 
         for (Map.Entry<String, ArrayList<Person>> entry : directory.entrySet()) {
             System.out.println(entry.getKey());
@@ -51,9 +63,9 @@ public class Main {
         }
     }
 
-    static void writeJSONFile() throws IOException {
+    static void writeJSONFile(String filename) throws IOException {
 
-        File f = new File("people.json");
+        File f = new File(filename);
         JsonSerializer serializer = new JsonSerializer();
         String json = serializer
                 .include("*")
@@ -62,16 +74,4 @@ public class Main {
         fw.write(json);
         fw.close();
     }
-
-    public static void main(String[] args) throws IOException {
-
-        scanIntoHashMap("people.csv");
-        sortHashMap();
-        printHashMap();
-        writeJSONFile();
-    }
 }
-
-
-
-

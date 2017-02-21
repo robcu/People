@@ -24,10 +24,8 @@ public class Person implements Comparable{
     @Override
     public int compareTo(Object o){
         Person otherPerson = (Person) o;
-        if((this.lastName.compareTo(otherPerson.lastName)) == 0){
-            return this.firstName.compareTo(otherPerson.firstName);
-        }
-        else return this.lastName.compareTo(otherPerson.lastName);
+        int compare = lastName.compareTo(otherPerson.lastName);
+        return (compare == 0) ? firstName.compareTo(otherPerson.firstName) : compare;
     }
 
     public String getId() {
